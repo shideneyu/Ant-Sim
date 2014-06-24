@@ -18,24 +18,21 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.text.View;
 
+import controllers.ControllerColony;
+
 public class GroundView extends JPanel  {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private int x=1;
-    int y=1;
+    private int y=1;
 
     //Constructor 
     public GroundView() {
-    	colony(20,20);
+    	
     }
     
-    public void colony(int i, int j) {
-	    x = i;
-	    y = j;
-	    repaint();
-    }
 
 	public int randomposition(int value) {
         Random random = new Random();
@@ -52,12 +49,6 @@ public class GroundView extends JPanel  {
 		}
 		return value;
 	}
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.green);
-		g.fillRect(x, y, 20, 20);
-    }
 
 
     public static void main(String[] args) {
@@ -67,7 +58,8 @@ public class GroundView extends JPanel  {
 		        frame.setSize(500, 500);
 		        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		        frame.setVisible(true);
-		        frame.add(new GroundView());
+		        Colony myColony = new Colony();
+		        frame.add(myColony);
     	     }
     	});
 
