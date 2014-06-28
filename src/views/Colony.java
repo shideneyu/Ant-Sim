@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import controllers.ControllerColony;
 
-public class Colony extends JPanel {
+public class Colony {
 	private int x;
 	private int y;
 	public Colony() {
@@ -19,11 +19,4 @@ public class Colony extends JPanel {
 		this.y = colonyLocation[1];
 	}
 	
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.red);
-		g.fillRect(this.x, this.y, 50, 50);
-    }
-
 }
