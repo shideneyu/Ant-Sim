@@ -67,7 +67,6 @@ public class GroundView extends JPanel {
 	}
 
 	private void drawAnts(Graphics g, int antNumber) {
-		System.out.print( "\n\nshid" + this.antsData.get(antNumber)[0] + "\n");
 
 		this.antsData.get(antNumber)[0] = randomposition(this.antsData.get(antNumber)[0]);
 		this.antsData.get(antNumber)[1] = randomposition(this.antsData.get(antNumber)[1]);
@@ -76,17 +75,7 @@ public class GroundView extends JPanel {
 		g.fillRect(this.antsData.get(antNumber)[0], this.antsData.get(antNumber)[1], 10, 10);
 		defineAntPosition();
 		
-		Timer resetTimer = new Timer(0, new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				repaint();
-				
-			}
-		});
-		resetTimer.setRepeats(false);
-        resetTimer.setCoalesce(true);
-        resetTimer.start();
         
 
 	}
@@ -122,13 +111,13 @@ public class GroundView extends JPanel {
         Random random = new Random();
 		
 		if (random.nextBoolean() == true) {
-			if (value+1 != 500) {
-				value++;
+			if (value+10 < 500) {
+				value = value + 10;
 			}
 		}
 		else {
-			if (value-1 != 0) {
-				value--;	
+			if (value-10 > 0) {
+				value = value - 10;	
 			}
 		}
 		return value;
@@ -140,7 +129,7 @@ public class GroundView extends JPanel {
         drawAntHill(g);
         // Add a new ant
         int[] myIntArray = {3,1};
-        if (this.antsData.size() < 30) {
+        if (this.antsData.size() < 10) {
         	this.antsData.put(this.antNumber++, myIntArray);
         }
         // Draw every ants
@@ -149,6 +138,17 @@ public class GroundView extends JPanel {
 			drawAnts(g, count);
 			count++;
         } while (count < this.antsData.size());
+		System.out.print( "\n\nshid" + this.antsData.get(0)[0] + "\n");
+		Timer resetTimer = new Timer(1000, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				repaint();
+			}
+		});
+		resetTimer.setRepeats(false);
+        //resetTimer.setCoalesce(false);
+        resetTimer.start();
         
     }
 
