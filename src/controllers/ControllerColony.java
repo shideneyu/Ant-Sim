@@ -16,8 +16,9 @@ public class ControllerColony {
 	}
 
 	public boolean generateAnts() {
-		ControllerAnt myAnt = new ControllerAnt();
-		return myAnt.create();
+		return false;
+		//ControllerAnt myAnt = new ControllerAnt();
+		//return myAnt.create();
 	}
 
 }
