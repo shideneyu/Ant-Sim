@@ -33,7 +33,14 @@ public class ModelAnt {
 	public void setBearFood(boolean bearFood) {
 		this.bearFood = bearFood;
 	}
-	public int randomposition(int value) {
+	public int randomposition(int value, int type) {
+		// if type == "x"
+		if (type == 0) {
+			int step = 15;
+		}
+		else {
+			int step = 30;
+		}
         Random random = new Random();
 		
 		if (random.nextBoolean() == true) {

@@ -13,8 +13,8 @@ public class ControllerAnt {
 	}
 	
 	public List<Integer> getNewPosition(int oldPositionX, int oldPositionY) {
-		this.modelAnt.setPositionX(this.modelAnt.randomposition(oldPositionX));
-		this.modelAnt.setPositionY(this.modelAnt.randomposition(oldPositionY));
+		this.modelAnt.setPositionX(this.modelAnt.randomposition(oldPositionX, 0));
+		this.modelAnt.setPositionY(this.modelAnt.randomposition(oldPositionY, 1));
 	    List<Integer> antPosition = new ArrayList<Integer>();
 
 	    antPosition.add(this.modelAnt.getPositionX());
