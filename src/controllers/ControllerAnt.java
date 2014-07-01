@@ -8,18 +8,27 @@ import models.ModelAnt;
 public class ControllerAnt {
 
     private ModelAnt modelAnt;
+    private int newPositionX;
+    private int newPositionY;
 	public ControllerAnt(int x, int y) {
 		this.modelAnt = new ModelAnt(x, y);
 	}
 	
-	public List<Integer> getNewPosition(int oldPositionX, int oldPositionY) {
-		this.modelAnt.setPositionX(this.modelAnt.randomposition(oldPositionX, 0));
-		this.modelAnt.setPositionY(this.modelAnt.randomposition(oldPositionY, 1));
-	    List<Integer> antPosition = new ArrayList<Integer>();
+	public List<Integer> getNewData(int oldPositionX, int oldPositionY, int hasFood) {
+		// In order for the ant to move anywhere but the current position
+		do {
+			this.newPositionX = this.modelAnt.randomposition(oldPositionX);
+			this.newPositionY = this.modelAnt.randomposition(oldPositionY);
+		} while((Integer.valueOf(this.newPositionX).equals(Integer.valueOf(oldPositionX))) && (Integer.valueOf(this.newPositionY).equals(Integer.valueOf(oldPositionY))));
 
-	    antPosition.add(this.modelAnt.getPositionX());
-		antPosition.add(this.modelAnt.getPositionY());
-		return antPosition;
+		this.modelAnt.setPositionX(this.newPositionX);
+		this.modelAnt.setPositionY(this.newPositionY);
+	    List<Integer> antData = new ArrayList<Integer>();
+
+	    antData.add(this.modelAnt.getPositionX());
+	    antData.add(this.modelAnt.getPositionY());
+	    antData.add(hasFood);
+		return antData;
 	}
 
 }

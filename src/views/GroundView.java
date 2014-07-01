@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 
 
@@ -48,10 +49,11 @@ public class GroundView extends JPanel {
     // Food Variables
 	private ControllerFood ControllerFood;
 	private Hashtable<Integer, List<Integer>> foodList=new Hashtable<Integer, List<Integer>>();
-	private int foodQuantity = 5;
+	private int foodQuantity = 50;
 	private int foodId = 0;
 	// Others
-	private int timerPause = 1000;
+	private int timerPause = 333;
+	private int foodHarvested = 0;
 
 
     //Constructor 
@@ -73,22 +75,68 @@ public class GroundView extends JPanel {
 
 	private void drawFood(Graphics g, int foodId) {
 		g.setColor(Color.green);
-		g.fillRect(this.foodList.get(foodId).get(0), this.foodList.get(foodId).get(1), 5, 10);
+		g.fillRect(this.foodList.get(foodId).get(0), this.foodList.get(foodId).get(1), 10, 10);
+	}
+
+	private void drawAnts(Graphics g, int antId) {
+		// If the ant doesn't have any food
+		if (this.antsData.get(antId).get(2).equals(0)) {
+			// Update the new position of the current ant
+			this.antsData.put(antId, this.ControllerAnt.getNewData(this.antsData.get(antId).get(0), this.antsData.get(antId).get(1), this.antsData.get(antId).get(2)));
+			int newAntPositionX = this.antsData.get(antId).get(0);
+			int newAntPositionY = this.antsData.get(antId).get(1);
+			// If the new antPosition contains a food
+			this.foodList.keys();
+			// TODO : DELEGATE TO THE GROUND CONTROLLER + MODEL !!!!
+			outerloop:
+			for (Entry<Integer, List<Integer>> foodPosition : this.foodList.entrySet()) {
+				// If food position == ant position
+				if ((foodPosition.getValue().get(0).equals(this.antsData.get(antId).get(0))) && (foodPosition.getValue().get(1).equals(this.antsData.get(antId).get(1)))) {
+					//System.out.print( "SUCCESSSSSS antsData:" + antsData.get(antId) + "food:" + foodPosition + "\n");
+					// Make the ant bear the food
+					this.antsData.get(antId).set(2, 1);
+					// Remove the food
+					//System.out.print( "FoodList =" +this.foodList+ "; + foodPosition" + foodPosition.getKey() + "\n");
+					this.foodList.remove(foodPosition.getKey());
+					//System.out.print( this.antsData.toString() + "\n");
+					break outerloop;
+				}
+			}
+		}
+		// If the ant has food
+		else {
+			// TODO : DELEGATE TO THE ANT CONTROLLER + MODEL !!!!
+			
+			//System.out.print("hasfood, position " + this.antsData.get(antId).get(0));
+			//System.out.print(" " + this.antsData.get(antId).get(1) + "\n\n");
+			if(this.antsData.get(antId).get(0) > 0) {
+				this.antsData.get(antId).set(0, (this.antsData.get(antId).get(0) - 10));
+			}
+			if (this.antsData.get(antId).get(1) > 0 ) {
+				this.antsData.get(antId).set(1, (this.antsData.get(antId).get(1) - 10));
+			}
+			// If the ant has returned to the mine
+			if(this.antsData.get(antId).get(0).equals(0) && this.antsData.get(antId).get(1).equals(0)) {
+			  // Remove its food
+			  this.antsData.get(antId).set(2, 0);
+			  this.foodHarvested++;
+			  System.out.print("Food harvested: " + this.foodHarvested + "\n");
+			}
+			
+		}
+		if (this.antsData.get(antId).get(2) == 0) {
+			g.setColor(Color.black);
+		}
+		else {
+			g.setColor(Color.blue);
+		}
+		g.fillArc(this.antsData.get(antId).get(0), this.antsData.get(antId).get(1), 20, 20, 25, 40);
 	}
 
 	private void drawAntHill(Graphics g) {
 		g.setColor(Color.red);
 		g.fillRect(this.hillPositionX, this.hillPositionY, this.hillWidth, this.hillHeight);
 	}
-
-	private void drawAnts(Graphics g, int antId) {
-		// Update the new position of the current ant
-		this.antsData.put(antId, this.ControllerAnt.getNewPosition(this.antsData.get(antId).get(0), this.antsData.get(antId).get(1)));
-
-		g.setColor(Color.black);
-		g.fillArc(this.antsData.get(antId).get(0), this.antsData.get(antId).get(1), 15, 30, 25, 40);
-	}
-
 	
     @Override
     public void paintComponent(Graphics g) {
@@ -109,7 +157,7 @@ public class GroundView extends JPanel {
         if (this.antsData.size() < this.antNumber) {
             // Add a new ant
             this.ControllerAnt = new ControllerAnt(this.antInitialPositionX,this.antInitialPositionY);
-            List<Integer> antPosition = this.ControllerAnt.getNewPosition(this.antInitialPositionX,this.antInitialPositionY);
+            List<Integer> antPosition = this.ControllerAnt.getNewData(this.antInitialPositionX,this.antInitialPositionY, 0);
             // Append a new ant to the ants List
         	this.antsData.put(this.antId++, antPosition);
         }
@@ -122,17 +170,17 @@ public class GroundView extends JPanel {
         } while (antId < this.antsData.size());
 		
         // Draw every food
-        int foodId = 0;
-		do {
+		for(Integer foodId : this.foodList.keySet()) {
 			drawFood(g, foodId);
 			foodId++;
-        } while (foodId < this.foodList.size());
-		System.out.print( "\nFirst food, position x:" +this.foodList.get(0).get(0)  + "\n");
-		System.out.print( "\nFirst food, position y:" +this.foodList.get(0).get(1)  + "\n");
+        }
+		//System.out.print( "\nFirst food, position x:" +this.foodList.get(0).get(0)  + "\n");
+		//System.out.print( "\nFirst food, position y:" +this.foodList.get(0).get(1)  + "\n");
 
-		
+		//System.out.print( "First ant, position x:" +this.antsData.get(0).get(0));
 		//System.out.print( "\n\nFirst ant, position y:" +this.antsData.get(0).get(1)  + "\n");
 		
+
 		// 1 second of pause between each action
 		Timer resetTimer = new Timer(this.timerPause, new ActionListener() {
 			@Override
