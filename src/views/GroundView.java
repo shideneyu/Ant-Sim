@@ -29,6 +29,7 @@ import javax.swing.text.View;
 import controllers.ControllerAnt;
 import controllers.ControllerColony;
 import controllers.ControllerFood;
+import controllers.ControllerGround;
 
 public class GroundView extends JPanel {
 	// Serialization
@@ -44,7 +45,7 @@ public class GroundView extends JPanel {
     private Hashtable<Integer, List<Integer>> antsData=new Hashtable<Integer, List<Integer>>();
 	private int antInitialPositionX = 0;
 	private int antInitialPositionY = 0;
-	private int antNumber = 5;
+	private int antNumber = 25;
 	private int antId = 0;
     // Food Variables
 	private ControllerFood ControllerFood;
@@ -52,7 +53,7 @@ public class GroundView extends JPanel {
 	private int foodQuantity = 50;
 	private int foodId = 0;
 	// Others
-	private int timerPause = 333;
+	private int timerPause = 200;
 	private int foodHarvested = 0;
 
 
@@ -83,38 +84,16 @@ public class GroundView extends JPanel {
 		if (this.antsData.get(antId).get(2).equals(0)) {
 			// Update the new position of the current ant
 			this.antsData.put(antId, this.ControllerAnt.getNewData(this.antsData.get(antId).get(0), this.antsData.get(antId).get(1), this.antsData.get(antId).get(2)));
-			int newAntPositionX = this.antsData.get(antId).get(0);
-			int newAntPositionY = this.antsData.get(antId).get(1);
 			// If the new antPosition contains a food
-			this.foodList.keys();
-			// TODO : DELEGATE TO THE GROUND CONTROLLER + MODEL !!!!
-			outerloop:
-			for (Entry<Integer, List<Integer>> foodPosition : this.foodList.entrySet()) {
-				// If food position == ant position
-				if ((foodPosition.getValue().get(0).equals(this.antsData.get(antId).get(0))) && (foodPosition.getValue().get(1).equals(this.antsData.get(antId).get(1)))) {
-					//System.out.print( "SUCCESSSSSS antsData:" + antsData.get(antId) + "food:" + foodPosition + "\n");
-					// Make the ant bear the food
-					this.antsData.get(antId).set(2, 1);
-					// Remove the food
-					//System.out.print( "FoodList =" +this.foodList+ "; + foodPosition" + foodPosition.getKey() + "\n");
-					this.foodList.remove(foodPosition.getKey());
-					//System.out.print( this.antsData.toString() + "\n");
-					break outerloop;
-				}
-			}
+			ControllerGround groundController = new ControllerGround(this.antsData, this.foodList, antId);
+			this.antsData = (Hashtable<Integer, List<Integer>>) groundController.getProcessedPosition().get(0);
+			this.foodList = (Hashtable<Integer, List<Integer>>) groundController.getProcessedPosition().get(1);
 		}
 		// If the ant has food
 		else {
-			// TODO : DELEGATE TO THE ANT CONTROLLER + MODEL !!!!
-			
-			//System.out.print("hasfood, position " + this.antsData.get(antId).get(0));
-			//System.out.print(" " + this.antsData.get(antId).get(1) + "\n\n");
-			if(this.antsData.get(antId).get(0) > 0) {
-				this.antsData.get(antId).set(0, (this.antsData.get(antId).get(0) - 10));
-			}
-			if (this.antsData.get(antId).get(1) > 0 ) {
-				this.antsData.get(antId).set(1, (this.antsData.get(antId).get(1) - 10));
-			}
+			// Return to base
+			this.antsData.get(antId).set(0, this.ControllerAnt.returnToBase(this.antsData.get(antId)).get(0));
+			this.antsData.get(antId).set(1, this.ControllerAnt.returnToBase(this.antsData.get(antId)).get(1));
 			// If the ant has returned to the mine
 			if(this.antsData.get(antId).get(0).equals(0) && this.antsData.get(antId).get(1).equals(0)) {
 			  // Remove its food

@@ -31,4 +31,14 @@ public class ControllerAnt {
 		return antData;
 	}
 
+	public List<Integer> returnToBase(List<Integer> ant) {
+		if(ant.get(0) > 0) {
+			ant.set(0, (ant.get(0) - 10));
+		}
+		if (ant.get(1) > 0 ) {
+			ant.set(1, (ant.get(1) - 10));
+		}
+		return ant;
+	}
+
 }
