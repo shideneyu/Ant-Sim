@@ -50,20 +50,23 @@ public class ControllerAnt {
 		for(int counter = 0; counter < hurdlefullCoordinatesList.size(); counter++) {
 			if(processedCurrentCoordinate2.get(0).equals(hurdlefullCoordinatesList.get(counter))) {  
 				// The wall does work... it's just not obvious, uncomment next line
-				// System.out.print("Ant blocked by a wall!\n");
+				System.out.print("Ant blocked by a wall!\n");
 				return true;
 		      }
 		  }
 		return false;
 	}
 
-	public List<Integer> returnToBase(List<Integer> ant) {
-		if(ant.get(0) > 0) {
-			ant.set(0, (ant.get(0) - 10));
-		}
-		if (ant.get(1) > 0 ) {
-			ant.set(1, (ant.get(1) - 10));
-		}
+	public List<Integer> returnToBase(List<Integer> ant, List<List<Integer>> HurdlefullCoordinatesList) {
+		// While the new position has no hurdle
+		do {
+			if(ant.get(0) > 0) {
+				ant.set(0, (ant.get(0) - 10));
+			}
+			if (ant.get(1) > 0 ) {
+				ant.set(1, (ant.get(1) - 10));
+			}
+		} while(isIncluded(HurdlefullCoordinatesList, this.processedCurrentCoordinate));
 		return ant;
 	}
 

@@ -25,7 +25,7 @@ public class ModelHurdle {
 			this.currentY = coordinate.get(1);
 
 			// Inject a new +1 on x and y (20 times) to every position
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < 40; i++) {
 				List<Integer> currentCoordinate = new ArrayList<Integer>();
 				currentCoordinate.add(this.currentX++);
 				currentCoordinate.add(this.currentY++);

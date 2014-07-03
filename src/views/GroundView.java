@@ -103,8 +103,8 @@ public class GroundView extends JPanel {
 		// If the ant has food
 		else {
 			// Return to base
-			this.antsData.get(antId).set(0, this.ControllerAnt.returnToBase(this.antsData.get(antId)).get(0));
-			this.antsData.get(antId).set(1, this.ControllerAnt.returnToBase(this.antsData.get(antId)).get(1));
+			this.antsData.get(antId).set(0, this.ControllerAnt.returnToBase(this.antsData.get(antId), this.HurdlefullCoordinatesList).get(0));
+			this.antsData.get(antId).set(1, this.ControllerAnt.returnToBase(this.antsData.get(antId), this.HurdlefullCoordinatesList).get(1));
 			// If the ant has returned to the mine
 			if(this.antsData.get(antId).get(0).equals(0) && this.antsData.get(antId).get(1).equals(0)) {
 			  // Remove its food
@@ -130,7 +130,7 @@ public class GroundView extends JPanel {
 	
 	private void drawHurdle(Graphics g, List<Integer> hurdle) {
 		g.setColor(Color.orange);
-		g.fillRect(hurdle.get(0), hurdle.get(1), 1, 1);
+		g.fillRect(hurdle.get(0), hurdle.get(1), 5, 5);
 	}
     @Override
     public void paintComponent(Graphics g) {
