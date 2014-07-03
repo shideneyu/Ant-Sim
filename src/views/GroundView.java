@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map.Entry;
@@ -30,6 +31,7 @@ import controllers.ControllerAnt;
 import controllers.ControllerColony;
 import controllers.ControllerFood;
 import controllers.ControllerGround;
+import controllers.ControllerHurdle;
 
 public class GroundView extends JPanel {
 	// Serialization
@@ -45,15 +47,24 @@ public class GroundView extends JPanel {
     private Hashtable<Integer, List<Integer>> antsData=new Hashtable<Integer, List<Integer>>();
 	private int antInitialPositionX = 0;
 	private int antInitialPositionY = 0;
-	private int antNumber = 25;
+	private int antNumber = 5;
 	private int antId = 0;
+    // Hurdle Variables
+	private ControllerHurdle ControllerHurdle = new ControllerHurdle();
+	private Hashtable<Integer, List<Integer>> hurdleList=new Hashtable<Integer, List<Integer>>();
+	private List<List<Integer>> HurdlefullCoordinatesList = new ArrayList<List<Integer>>();
+	private int hurdleQuantity = 50;
+    private int currentHurdleQuantity = 0;
+    private int hurdleWidth = 25;
+    private int hurdleHeight = 50;
     // Food Variables
 	private ControllerFood ControllerFood;
 	private Hashtable<Integer, List<Integer>> foodList=new Hashtable<Integer, List<Integer>>();
 	private int foodQuantity = 50;
+    private int currentFoodQuantity = 0;
 	private int foodId = 0;
 	// Others
-	private int timerPause = 200;
+	private int timerPause = 333;
 	private int foodHarvested = 0;
 
 
@@ -83,7 +94,7 @@ public class GroundView extends JPanel {
 		// If the ant doesn't have any food
 		if (this.antsData.get(antId).get(2).equals(0)) {
 			// Update the new position of the current ant
-			this.antsData.put(antId, this.ControllerAnt.getNewData(this.antsData.get(antId).get(0), this.antsData.get(antId).get(1), this.antsData.get(antId).get(2)));
+			this.antsData.put(antId, this.ControllerAnt.getNewData(this.antsData.get(antId).get(0), this.antsData.get(antId).get(1), this.antsData.get(antId).get(2), this.HurdlefullCoordinatesList));
 			// If the new antPosition contains a food
 			ControllerGround groundController = new ControllerGround(this.antsData, this.foodList, antId);
 			this.antsData = (Hashtable<Integer, List<Integer>>) groundController.getProcessedPosition().get(0);
@@ -117,6 +128,10 @@ public class GroundView extends JPanel {
 		g.fillRect(this.hillPositionX, this.hillPositionY, this.hillWidth, this.hillHeight);
 	}
 	
+	private void drawHurdle(Graphics g, List<Integer> hurdle) {
+		g.setColor(Color.orange);
+		g.fillRect(hurdle.get(0), hurdle.get(1), 1, 1);
+	}
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -124,23 +139,35 @@ public class GroundView extends JPanel {
         drawAntHill(g);
 
         // Draw food
-        if (this.foodList.size() < this.foodQuantity) {
-            // Add a new food
+        for(this.currentFoodQuantity = this.currentFoodQuantity; this.currentFoodQuantity < this.foodQuantity; this.currentFoodQuantity++){
+        	// Add a new food
             this.ControllerFood = new ControllerFood();
             List<Integer> foodPosition = this.ControllerFood.getFoodCoordonates();
             // Append a new food on the food list
-            this.foodList.put(this.foodId++, foodPosition);
+            this.foodList.put(this.currentFoodQuantity, foodPosition);
         }
 
+        // Draw hurdle
+        for(this.currentHurdleQuantity = this.currentHurdleQuantity; this.currentHurdleQuantity <= this.hurdleQuantity; this.currentHurdleQuantity++){
+        	// Set the hurdles
+        	this.ControllerHurdle.setHurdleCoordinates();
+            if (this.currentHurdleQuantity == this.hurdleQuantity) {
+            	this.HurdlefullCoordinatesList = this.ControllerHurdle.getHurdleFullCoordinates();
+            }
+            //System.out.print("Hurdle Position: " + this.HurdlefullCoordinatesList + "\n");
+
+        }
+
+        
         // Draw ants
         if (this.antsData.size() < this.antNumber) {
             // Add a new ant
             this.ControllerAnt = new ControllerAnt(this.antInitialPositionX,this.antInitialPositionY);
-            List<Integer> antPosition = this.ControllerAnt.getNewData(this.antInitialPositionX,this.antInitialPositionY, 0);
+            List<Integer> antPosition = this.ControllerAnt.getNewData(this.antInitialPositionX,this.antInitialPositionY, 0, this.HurdlefullCoordinatesList);
             // Append a new ant to the ants List
         	this.antsData.put(this.antId++, antPosition);
         }
-
+        
         // Draw every ants
         int antId = 0;
 		do {
@@ -151,7 +178,10 @@ public class GroundView extends JPanel {
         // Draw every food
 		for(Integer foodId : this.foodList.keySet()) {
 			drawFood(g, foodId);
-			foodId++;
+        }
+        // Draw every hurdle
+		for(List<Integer> hurdle : HurdlefullCoordinatesList) {
+			drawHurdle(g, hurdle);
         }
 		//System.out.print( "\nFirst food, position x:" +this.foodList.get(0).get(0)  + "\n");
 		//System.out.print( "\nFirst food, position y:" +this.foodList.get(0).get(1)  + "\n");
