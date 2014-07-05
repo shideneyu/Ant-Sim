@@ -71,17 +71,16 @@ public class GroundView extends JPanel {
     //Constructor 
     public GroundView() {
     }
-
-    public static void main(String[] args) {
+    
+	public static void main(String[] args) {
     	SwingUtilities.invokeLater(new Runnable() {
-    	     public void run() {		        
-		        JFrame frame = new JFrame();
-		        frame.setSize(500, 500);
-		        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		        frame.setVisible(true);
-		        frame.add(new GroundView());
-    	     }
-    	});
+   	     public void run() {		        
+		        JFrame myInterface = new JFrame();
+		        myInterface.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		        myInterface.setVisible(true);
+		        myInterface.add(new dataManagementView());
+   	     }
+   	});
     }
 
 
@@ -202,5 +201,23 @@ public class GroundView extends JPanel {
         resetTimer.start();
         
     }
+    
+    // Getters and setters
+
+	public void setAntNumber(int antNumber) {
+		this.antNumber = antNumber;
+	}
+
+	public void setHurdleQuantity(int hurdleQuantity) {
+		this.hurdleQuantity = hurdleQuantity;
+	}
+
+	public void setFoodQuantity(int foodQuantity) {
+		this.foodQuantity = foodQuantity;
+	}
+
+	public void setTimerPause(int timerPause) {
+		this.timerPause = timerPause;
+	}
 
 }
