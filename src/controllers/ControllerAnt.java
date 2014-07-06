@@ -50,7 +50,7 @@ public class ControllerAnt {
 		for(int counter = 0; counter < hurdlefullCoordinatesList.size(); counter++) {
 			if(processedCurrentCoordinate2.get(0).equals(hurdlefullCoordinatesList.get(counter))) {  
 				// The wall does work... it's just not obvious, uncomment next line
-				System.out.print("Ant blocked by a wall!\n");
+				// System.out.print("Ant blocked by a wall!\n");
 				return true;
 		      }
 		  }

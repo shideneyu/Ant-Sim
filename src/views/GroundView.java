@@ -4,6 +4,7 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -64,6 +65,7 @@ public class GroundView extends JPanel {
     private int currentFoodQuantity = 0;
 	private int foodId = 0;
 	// Others
+	private statisticsView statisticsView;
 	private int timerPause = 333;
 	private int foodHarvested = 0;
 
@@ -77,7 +79,6 @@ public class GroundView extends JPanel {
    	     public void run() {		        
 		        JFrame myInterface = new JFrame();
 		        myInterface.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		        myInterface.setVisible(true);
 		        myInterface.add(new dataManagementView());
    	     }
    	});
@@ -110,6 +111,7 @@ public class GroundView extends JPanel {
 			  this.antsData.get(antId).set(2, 0);
 			  this.foodHarvested++;
 			  System.out.print("Food harvested: " + this.foodHarvested + "\n");
+			  this.statisticsView.setDataValues(4, this.foodHarvested);
 			}
 			
 		}
@@ -202,7 +204,12 @@ public class GroundView extends JPanel {
         
     }
     
-    // Getters and setters
+	public void getStatisticsPanel() {
+        this.statisticsView = new statisticsView();
+		this.statisticsView.launch();
+	}
+	
+    // Options Setters
 
 	public void setAntNumber(int antNumber) {
 		this.antNumber = antNumber;

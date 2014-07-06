@@ -53,7 +53,7 @@ public class dataManagementView  extends JPanel {
 	      SpringUtilities.makeCompactGrid(p, 1, p.getComponentCount(), 6, 6, 6, 6);
 
 	    //Create and set up the window.
-	    JFrame frame = new JFrame("SpringForm");
+	    JFrame frame = new JFrame("AntSimulator Options");
 	    //Set up the content pane.
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -69,16 +69,17 @@ public class dataManagementView  extends JPanel {
 	
 	public void startSimulation(final GroundView myGroundView) {
 		SwingUtilities.invokeLater(new Runnable() {
-    	     public void run() {		        
+    	     public void run() {
+   		        myGroundView.getStatisticsPanel();
+
  		        JFrame frame = new JFrame();
  		        frame.setSize(500, 500);
  		        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  		        frame.setVisible(true);
  		        frame.add(myGroundView);
+ 		        
     	     }
     	});
 	}
-   
-
 
 }
