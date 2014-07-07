@@ -114,6 +114,7 @@ public class GroundView extends JPanel {
 			  this.antsData.get(antId).set(2, 0);
 			  this.foodHarvested++;
 			  this.statisticsView.setDataValues(4, this.foodHarvested);
+			  this.statisticsView.setDataValues(3, this.foodQuantity-this.foodHarvested);
 			}
 			
 		}

@@ -16,7 +16,7 @@ public class StatisticsView extends JPanel {
   private String food_quantity_left = "20";
   JTextField foodHarvestedField;
   JTextField hurdleAvoidedField;
-
+  JTextField foodQuantityLeftField;
   
   // Constructor of main frame
   public StatisticsView() {
@@ -33,6 +33,12 @@ public class StatisticsView extends JPanel {
       this.hurdleAvoidedField = new JTextField(10);
       hurdle.setLabelFor(this.hurdleAvoidedField);
       p.add(this.hurdleAvoidedField);
+      // Food Quantity Left
+	  JLabel foodQuantityLeft = new JLabel("Food quantity left: ", JLabel.TRAILING);
+      p.add(foodQuantityLeft);
+      this.foodQuantityLeftField = new JTextField(10);
+      hurdle.setLabelFor(this.foodQuantityLeftField);
+      p.add(this.foodQuantityLeftField);
 	  //Lay out the panel.
 	  SpringUtilities.makeCompactGrid(p, 1, p.getComponentCount(), 6, 6, 6, 6);
 	
@@ -67,6 +73,7 @@ public class StatisticsView extends JPanel {
     }
     this.foodHarvestedField.setText(this.food_harvested);
     this.hurdleAvoidedField.setText(String.valueOf(this.hurdles_avoided));
+    this.foodQuantityLeftField.setText(String.valueOf(this.food_quantity_left));
 
   }
 }
