@@ -41,8 +41,16 @@ public class ControllerPheromone {
         
     }
 
-    public ArrayList<ModelPheromone> getPheromoneList() {
-        return pheromoneList;
+    public List<List<Integer>> getPheromoneList() {
+        List<List<Integer>> pheromoneListAll = new ArrayList<>();
+        for(ModelPheromone onePheromone : pheromoneList){
+            List<Integer> current = new ArrayList<>();
+            current.add(onePheromone.getX());
+            current.add(onePheromone.getY());
+            current.add(onePheromone.getCountdown());
+            pheromoneListAll.add(current);
+        }
+        return pheromoneListAll;
     }
 
 }

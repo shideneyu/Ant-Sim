@@ -33,7 +33,6 @@ import controllers.ControllerFood;
 import controllers.ControllerGround;
 import controllers.ControllerHurdle;
 import controllers.ControllerPheromone;
-import models.ModelPheromone;
 
 public class GroundView extends JPanel {
 	// Serialization
@@ -137,16 +136,16 @@ public class GroundView extends JPanel {
 		g.fillRect(hurdle.get(0), hurdle.get(1), 5, 5);
 	}
 
-        private void drawPheromone(Graphics g){
-            Color myColor = new Color(51, 0, 102, 110);//RGB + Opacity
-            g.setColor(myColor);
-            controllerPheromone.refresh(antsData);
-            for(ModelPheromone onePheromone : controllerPheromone.getPheromoneList()) {
-                if(onePheromone.getCountdown() > 0){
-                    g.fillOval(onePheromone.getX(), onePheromone.getY(), pheromoneRadius, pheromoneRadius);
-                }
+    private void drawPheromone(Graphics g){
+        Color myColor = new Color(51, 0, 102, 110);//RGB + Opacity
+        g.setColor(myColor);
+        controllerPheromone.refresh(antsData);
+        for(List<Integer> onePheromone : controllerPheromone.getPheromoneList()){
+            if(onePheromone.get(2) > 0){
+                g.fillOval(onePheromone.get(0), onePheromone.get(1), pheromoneRadius, pheromoneRadius);
             }
         }
+    }
         
     @Override
     public void paintComponent(Graphics g) {
