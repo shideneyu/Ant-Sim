@@ -61,10 +61,10 @@ public class ControllerAnt {
 		// While the new position has no hurdle
 		do {
 			if(ant.get(0) > 0) {
-				ant.set(0, (ant.get(0) - 10));
+				ant.set(0, (ant.get(0) - 1));
 			}
 			if (ant.get(1) > 0 ) {
-				ant.set(1, (ant.get(1) - 10));
+				ant.set(1, (ant.get(1) - 1));
 			}
 		} while(isIncluded(HurdlefullCoordinatesList, this.processedCurrentCoordinate));
 		return ant;

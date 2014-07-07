@@ -66,8 +66,8 @@ public class GroundView extends JPanel {
     private int currentFoodQuantity = 0;
 	private int foodId = 0;
     //Pheromone Variables
-        private ControllerPheromone controllerPheromone = new ControllerPheromone();
-        private int pheromoneRadius = 15;
+    private ControllerPheromone controllerPheromone = new ControllerPheromone();
+    private int pheromoneRadius = 15;
 	// Others
 	private int timerPause = 333;
 	private int foodHarvested = 0;

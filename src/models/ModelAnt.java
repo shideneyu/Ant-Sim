@@ -36,16 +36,16 @@ public class ModelAnt {
 	public int randomposition(int value) {
         Random random = new Random();
 		if (random.nextBoolean() == true) {
-			if (value+10 <= 500) {
+			if (value+1 <= 500) {
 				if (random.nextBoolean() == true) {
-					value = value + 10;
+					value = value + 1;
 				}
 			}
 		}
 		else {
-			if (value-10 >= 0) {
+			if (value-1 >= 0) {
 				if (random.nextBoolean() == true) {
-					value = value - 10;
+					value = value - 1;
 				}
 			}
 		}
