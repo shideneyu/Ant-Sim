@@ -5,10 +5,13 @@ import java.util.Collections;
 import java.util.List;
 
 import models.ModelAnt;
+import views.StatisticsView;
 
 public class ControllerAnt {
 
+	private StatisticsView statisticsPanel;
     private ModelAnt modelAnt;
+    private int hurdleAvoided;
     private int newPositionX;
     private int newPositionY;
 	List<Integer> currentCoordinate = new ArrayList<Integer>();
@@ -51,6 +54,7 @@ public class ControllerAnt {
 			if(processedCurrentCoordinate2.get(0).equals(hurdlefullCoordinatesList.get(counter))) {  
 				// The wall does work... it's just not obvious, uncomment next line
 				//System.out.print("Ant blocked by a wall!\n");
+				this.statisticsPanel.setDataValues(5, this.hurdleAvoided++);
 				return true;
 		      }
 		  }
@@ -70,4 +74,7 @@ public class ControllerAnt {
 		return ant;
 	}
 
+	public void setStatisticsView(StatisticsView frame) {
+		this.statisticsPanel = frame;
+	}
 }

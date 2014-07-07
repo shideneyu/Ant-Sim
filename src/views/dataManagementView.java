@@ -33,7 +33,7 @@ public class dataManagementView  extends JPanel {
 	        JLabel l = new JLabel(labels[i], JLabel.TRAILING);
 	        p.add(l);
 	        JTextField textField = new JTextField(10);
-                textField.setText(value[i]);
+            textField.setText(value[i]);
 	        listOfTextFields.add(textField);
 	        l.setLabelFor(textField);
 	        p.add(textField);
@@ -52,7 +52,7 @@ public class dataManagementView  extends JPanel {
 	        	startSimulation(myGroundView);
 	        	//Execute when button is pressed
 	        }
-	    });   
+	    });
 	    p.add(button);
 	    
 	    //Lay out the panel.
@@ -75,7 +75,10 @@ public class dataManagementView  extends JPanel {
 	
 	public void startSimulation(final GroundView myGroundView) {
 		SwingUtilities.invokeLater(new Runnable() {
-    	     public void run() {		        
+    	     public void run() {
+    	    	// Get the statistics panel
+    	    	myGroundView.getStatisticsPanel();
+    	    	// Get the groundView
  		        JFrame frame = new JFrame();
  		        frame.setSize(500, 500);
  		        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

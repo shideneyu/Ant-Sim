@@ -69,6 +69,7 @@ public class GroundView extends JPanel {
     private ControllerPheromone controllerPheromone = new ControllerPheromone();
     private int pheromoneRadius = 15;
 	// Others
+    private StatisticsView statisticsView;
 	private int timerPause = 333;
 	private int foodHarvested = 0;
 
@@ -83,7 +84,6 @@ public class GroundView extends JPanel {
 		        JFrame myInterface = new JFrame();
 		        myInterface.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		        myInterface.add(new dataManagementView());
-                        myInterface.setVisible(true);
    	     }
    	});
     }
@@ -114,7 +114,7 @@ public class GroundView extends JPanel {
 			  // Remove its food
 			  this.antsData.get(antId).set(2, 0);
 			  this.foodHarvested++;
-			  System.out.print("Food harvested: " + this.foodHarvested + "\n");
+			  this.statisticsView.setDataValues(4, this.foodHarvested);
 			}
 			
 		}
@@ -177,8 +177,7 @@ public class GroundView extends JPanel {
         
         // Draw ants
         if (this.antsData.size() < this.antNumber) {
-            // Add a new ant
-            this.ControllerAnt = new ControllerAnt(this.antInitialPositionX,this.antInitialPositionY);
+        	// Add new ant
             List<Integer> antPosition = this.ControllerAnt.getNewData(this.antInitialPositionX,this.antInitialPositionY, 0, this.HurdlefullCoordinatesList);
             // Append a new ant to the ants List
         	this.antsData.put(this.antId++, antPosition);
@@ -201,7 +200,7 @@ public class GroundView extends JPanel {
         }
                 
         // Draw pheromones
-                drawPheromone(g);
+        drawPheromone(g);
                 
 		//System.out.print( "\nFirst food, position x:" +this.foodList.get(0).get(0)  + "\n");
 		//System.out.print( "\nFirst food, position y:" +this.foodList.get(0).get(1)  + "\n");
@@ -224,6 +223,11 @@ public class GroundView extends JPanel {
     }
     
     // Getters and setters
+    public void getStatisticsPanel() {
+        this.ControllerAnt = new ControllerAnt(this.antInitialPositionX,this.antInitialPositionY);
+    	this.statisticsView = new StatisticsView();
+    	this.ControllerAnt.setStatisticsView(this.statisticsView);
+    }
 
 	public void setAntNumber(int antNumber) {
 		this.antNumber = antNumber;
