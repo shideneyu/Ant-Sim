@@ -15,11 +15,16 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 
 public class dataManagementView  extends JPanel {
+    private String defaultAnt = "30";
+    private String defaultHurdle = "7";
+    private String defaultFood = "20";
+    private String defaultTimer = "100";
 
     private List<JTextField> listOfTextFields = new ArrayList<JTextField>();
 
 	public dataManagementView() {
-		String[] labels = {"Ant Number: ", "Hurdle Quantity: ", "Food Quantity: ", "Timer (ms): "};
+		String[] labels =   {"Ant Number: ", "Hurdle Quantity: ", "Food Quantity: ", "Timer (ms): "};
+                String[] value =    {defaultAnt,defaultHurdle,defaultFood,defaultTimer};
 	    int numPairs = labels.length;
 
 	    //Create and populate the panel.
@@ -28,6 +33,7 @@ public class dataManagementView  extends JPanel {
 	        JLabel l = new JLabel(labels[i], JLabel.TRAILING);
 	        p.add(l);
 	        JTextField textField = new JTextField(10);
+                textField.setText(value[i]);
 	        listOfTextFields.add(textField);
 	        l.setLabelFor(textField);
 	        p.add(textField);
@@ -53,7 +59,7 @@ public class dataManagementView  extends JPanel {
 	      SpringUtilities.makeCompactGrid(p, 1, p.getComponentCount(), 6, 6, 6, 6);
 
 	    //Create and set up the window.
-	    JFrame frame = new JFrame("SpringForm");
+	    JFrame frame = new JFrame("Ant-Sim Configuration");
 	    //Set up the content pane.
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

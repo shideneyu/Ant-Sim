@@ -25,7 +25,7 @@ public class ControllerGround {
 			// If food position == ant position
 			if ((foodPosition.getValue().get(0).equals(this.antsData.get(this.antId).get(0))) && (foodPosition.getValue().get(1).equals(this.antsData.get(this.antId).get(1)))) {
 				// Make the ant bear the food
-				this.antsData.get(this.antId).set(2, 1);
+                                this.antsData.get(this.antId).set(2, 1);
 				// Remove the food
 				this.foodList.remove(foodPosition.getKey());
 				break outerloop;

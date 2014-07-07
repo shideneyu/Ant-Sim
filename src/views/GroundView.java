@@ -32,6 +32,8 @@ import controllers.ControllerColony;
 import controllers.ControllerFood;
 import controllers.ControllerGround;
 import controllers.ControllerHurdle;
+import controllers.ControllerPheromone;
+import models.ModelPheromone;
 
 public class GroundView extends JPanel {
 	// Serialization
@@ -63,6 +65,9 @@ public class GroundView extends JPanel {
 	private int foodQuantity = 50;
     private int currentFoodQuantity = 0;
 	private int foodId = 0;
+    //Pheromone Variables
+        private ControllerPheromone controllerPheromone = new ControllerPheromone();
+        private int pheromoneRadius = 15;
 	// Others
 	private int timerPause = 333;
 	private int foodHarvested = 0;
@@ -77,8 +82,8 @@ public class GroundView extends JPanel {
    	     public void run() {		        
 		        JFrame myInterface = new JFrame();
 		        myInterface.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		        myInterface.setVisible(true);
 		        myInterface.add(new dataManagementView());
+                        myInterface.setVisible(true);
    	     }
    	});
     }
@@ -131,12 +136,24 @@ public class GroundView extends JPanel {
 		g.setColor(Color.orange);
 		g.fillRect(hurdle.get(0), hurdle.get(1), 5, 5);
 	}
+
+        private void drawPheromone(Graphics g){
+            Color myColor = new Color(51, 0, 102, 110);//RGB + Opacity
+            g.setColor(myColor);
+            controllerPheromone.refresh(antsData);
+            for(ModelPheromone onePheromone : controllerPheromone.getPheromoneList()) {
+                if(onePheromone.getCountdown() > 0){
+                    g.fillOval(onePheromone.getX(), onePheromone.getY(), pheromoneRadius, pheromoneRadius);
+                }
+            }
+        }
+        
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         // Draw ant hill
         drawAntHill(g);
-
+        
         // Draw food
         for(this.currentFoodQuantity = this.currentFoodQuantity; this.currentFoodQuantity < this.foodQuantity; this.currentFoodQuantity++){
         	// Add a new food
@@ -182,6 +199,10 @@ public class GroundView extends JPanel {
 		for(List<Integer> hurdle : HurdlefullCoordinatesList) {
 			drawHurdle(g, hurdle);
         }
+                
+        // Draw pheromones
+                drawPheromone(g);
+                
 		//System.out.print( "\nFirst food, position x:" +this.foodList.get(0).get(0)  + "\n");
 		//System.out.print( "\nFirst food, position y:" +this.foodList.get(0).get(1)  + "\n");
 
